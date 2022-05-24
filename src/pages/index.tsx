@@ -2,7 +2,7 @@ import Image from "next/image";
 import Head from "next/head";
 import { SubscribeButton } from "../components/SubscribeButton";
 
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import { stripe } from "../services/stripe";
 
 import styles from "./home.module.scss";
@@ -39,12 +39,7 @@ export default function Home({ product }: HomeProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
-
+export const getStaticProps: GetStaticProps = async () => {
   const price = await stripe.prices.retrieve("price_1L2HLVJeuGXVRPehQ7QN64zh");
 
   const product = {
@@ -59,5 +54,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     props: {
       product,
     },
+    revalidate: 60 * 60 * 24, //24 Hours
   };
 };
