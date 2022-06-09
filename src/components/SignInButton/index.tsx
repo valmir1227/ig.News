@@ -5,14 +5,15 @@ import { FiX } from "react-icons/fi";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 export function SignInButton() {
-  const { data: session } = useSession();
-  console.log(session);
+  const { data: session, status } = useSession();
+
+  console.log(status);
 
   return session ? (
     <button
       className={styles.signInButton}
       type="button"
-      onClick={() => signOut()}
+      onClick={() => signOut({ redirect: false })}
     >
       <FaGithub color="#04d361" />
       {session.user.name}
@@ -22,7 +23,7 @@ export function SignInButton() {
     <button
       className={styles.signInButton}
       type="button"
-      onClick={() => signIn()}
+      onClick={() => signIn("github")}
     >
       <FaGithub color="#eba417" />
       Sign in with Github
