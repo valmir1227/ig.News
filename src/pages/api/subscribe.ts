@@ -1,18 +1,53 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { stripe } from "../../services/stripe";
 import { getSession } from "next-auth/react";
+import { fauna } from "../../services/fauna";
+import { query as q } from "faunadb";
+
+type User = {
+    ref: {
+        id: string
+    }
+    data: {
+        stripe_customer_id: string
+    }
+}
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "POST") {
         //Cria um custormer dentro do painel do stripe
         const sesssion = await getSession({ req })
 
-        const stripeCustomer = await stripe.customers.create({
-            email: sesssion.user.email
-            //metadata
-        })
+        const user = await fauna.query<User>(
+            q.Get(
+                q.Match(
+                    q.Index("user_by_email"),
+                    q.Casefold(sesssion.user.email)
+                )
+            )
+        )
+        //Verifica se o usuário ja existe 
+        let customerId = user.data.stripe_customer_id
+
+        if (!customerId) {
+            const stripeCustomer = await stripe.customers.create({
+                email: sesssion.user.email
+            })
+
+            await fauna.query(
+                q.Update(
+                    q.Ref(q.Collection("users"), user.ref.id),
+                    {
+                        data: {
+                            stripe_customer_id: stripeCustomer.id,
+                        }
+                    }
+                )
+            )
+            customerId = stripeCustomer.id
+        }
         const stripeCheckoutSession = await stripe.checkout.sessions.create({
-            customer: stripeCustomer.id,
+            customer: customerId,
             payment_method_types: ["card"],
             billing_address_collection: "required",
             line_items: [
