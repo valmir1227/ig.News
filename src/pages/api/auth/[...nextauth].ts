@@ -16,8 +16,6 @@ export default NextAuth({
         secret: process.env.NEXTAUTH_URL,
     },
 
-
-
     callbacks: {
         async signIn({ user, account, profile }) {
             const { email } = user
@@ -40,6 +38,8 @@ export default NextAuth({
                         q.Get(
                             q.Match(
                                 q.Index("user_by_email"),
+                                //Retorna uma string normalizada. Pode comparar duas strings para 
+                                //correspondência que não diferencia maiúsculas de minúsculas.
                                 q.Casefold(
                                     user.email
                                 )
