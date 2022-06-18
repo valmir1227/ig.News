@@ -1790,6 +1790,10 @@ scheduler@^0.22.0:
   dependencies:
     loose-envify "^1.1.0"
 
+"scoop-stripe-cli@https://github.com/stripe/scoop-stripe-cli.git":
+  version "0.0.0"
+  resolved "https://github.com/stripe/scoop-stripe-cli.git#cbbb31582885091ee7474b8b4526b4ba92f6ba77"
+
 semver@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
@@ -1889,10 +1893,10 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-stripe@^9.2.0:
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-9.2.0.tgz#06e5b8649cc875334588ab1601bc258db4dba857"
-  integrity sha512-VfL88AOZjZLZyfY6z9k8eACor5z1gRd/YohO0bAMZX9nqMIHXDeolMo6zo6mIZJs7aIrj3ESSDzqHKl0Gkumlg==
+stripe@^9.9.0:
+  version "9.9.0"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-9.9.0.tgz#f51620b9130cadd59c7a5300004a494547225e13"
+  integrity sha512-UBuHzKoEaHnTv2h65cIcYE0vse7at8CFlwjl/KS8I7piekMKa1lRTA5R2O4eXMp5wllWQbPF/UoLzTfjjcdBqA==
   dependencies:
     "@types/node" ">=8.1.0"
     qs "^6.10.3"
